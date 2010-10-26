@@ -37,11 +37,11 @@ EOF
 }
 
 packages() {
-#  yum -y install puppet
-#  yum -y install git 
-#  yum -y groupinstall
-#  yum -y sysstat
-echo "no changes to packages"
+  #  yum -y install puppet
+  #  yum -y groupinstall
+  #  yum -y sysstat
+  #  yum -y install git 
+	echo "no packages installed"
 }
 
 
@@ -131,6 +131,7 @@ fi
 # eth0_cfg
 # net_cfg
 
+# env_cfg
+
 ssh_cfg
-env_cfg
 services
