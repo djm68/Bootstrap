@@ -40,7 +40,8 @@ packages() {
 #  yum -y install puppet
 #  yum -y install git 
 #  yum -y groupinstall
-  yum -y sysstat
+#  yum -y sysstat
+echo "no changes to packages"
 }
 
 
@@ -103,6 +104,7 @@ chmod 600 /root/.ssh/*
 
 # env config
 env_cfg() {
+cp -f /root/.bashrc /root/.bashrc_bk
 cat > /root/.bashrc <<EOF
 # .bashrc
 # Source global definitions
@@ -127,7 +129,7 @@ fi
 
 
 # eth0_cfg
-net_cfg
+# net_cfg
 
 ssh_cfg
 env_cfg
