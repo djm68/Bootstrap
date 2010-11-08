@@ -116,16 +116,16 @@ fi
 EOF
 
 # put IP info onto console at boot time
-cat > /root/ip_info.sh <<EOF
+cat > /root/.ip_info.sh <<EOF
 #/bin/sh
 sleep 10
 echo; echo "My IP information" >> /dev/tty1
 /sbin/ifconfig  | grep "inet addr" >> /dev/tty1
 EOF
 
-chmod +x /root/ip_info.sh
+chmod +x /root/.ip_info.sh
 cat >> /etc/rc.local <<EOF
-/root/ip_info.sh &
+/root/.ip_info.sh &
 EOF
 }
 
