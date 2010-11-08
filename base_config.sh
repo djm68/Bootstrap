@@ -104,6 +104,8 @@ chmod 600 /root/.ssh/*
 
 # env config
 env_cfg() {
+
+# get rid of silly default aliases
 cp -f /root/.bashrc /root/.bashrc_bk
 cat > /root/.bashrc <<EOF
 # .bashrc
@@ -111,6 +113,19 @@ cat > /root/.bashrc <<EOF
 if [ -f /etc/bashrc ]; then
         . /etc/bashrc
 fi
+EOF
+
+# put IP info onto console at boot time
+cat > /root/ip_info.sh <<EOF
+#/bin/sh
+sleep 10
+echo; echo "My IP information" >> /dev/tty1
+/sbin/ifconfig  | grep "inet addr" >> /dev/tty1
+EOF
+
+chmod +x /root/ip_info.sh
+cat >> /etc/rc.local <<EOF
+/root/ip_info.sh &
 EOF
 }
 
@@ -131,7 +146,6 @@ fi
 # eth0_cfg
 # net_cfg
 
-# env_cfg
-
+env_cfg
 ssh_cfg
 services
