@@ -40,14 +40,17 @@ packages() {
   #  yum -y install puppet
   #  yum -y groupinstall
   #  yum -y sysstat
-  #  yum -y install git 
-	echo "no packages installed"
+  # yum -y install rdoc
+  yum -y install git 
+  yum -y install ntp
+  
+	#echo "no packages installed"
 }
 
 
 # Shut off useless services
 services() {
-  for srv in cups sendmail bluetooth iptables ip6tables; do 
+  for srv in yum-updatesd cups sendmail bluetooth iptables ip6tables; do 
     chkconfig --level 123456 ${srv} off
   done
 }
@@ -134,14 +137,6 @@ EOF
 #  MAIN
 ###############
 # Called with a host name or not?
-if [ -z $1 ]; then
-  HOST=`hostname -s`
-  echo "Using ${HOST} as hostname"
-else
-  HOST=$1
-  echo "Using ${HOST} as hostname"
-fi
-
 
 # eth0_cfg
 # net_cfg
@@ -149,3 +144,4 @@ fi
 env_cfg
 ssh_cfg
 services
+package
