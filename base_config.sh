@@ -1,52 +1,5 @@
 #!/bin/bash
 
-#################################################################
-# Re-config eth0 from dhcp to fixed IP based on current settings
-#################################################################
-
-eth0_cfg() {
-  cp -f /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth0.bak
-  HWADDR=`cat /etc/sysconfig/network-scripts/ifcfg-eth0 | grep HWADDR`
-  IPADDR=`ifconfig eth0 | grep Bcast |awk -F":" '{print $2}' | awk -F"Bcast" '{print $1}'`
-
-cat > /etc/sysconfig/network-scripts/ifcfg-eth0 <<EOF
-DEVICE=eth0
-NETMASK=255.255.255.0
-NETWORK=192.168.255.0
-BROADCAST=255.255.255.255
-GATEWAY=192.168.97.2
-ONBOOT=yes
-$HWADDR
-IPADDR=${IPADDR}
-EOF
-}
-
-
-#################################################################
-# Create Network File
-#################################################################
-net_cfg() {
-
-cp /etc/sysconfig/network /etc/sysconfig/network.bak
-cat > /etc/sysconfig/network <<EOF
-NETWORKING=yes
-NETWORKING_IPV6=no
-HOSTNAME=${HOST}
-EOF
-
-}
-
-packages() {
-  #  yum -y install puppet
-  #  yum -y groupinstall
-  #  yum -y sysstat
-  # yum -y install rdoc
-  yum -y install git 
-  yum -y install ntp
-  
-	#echo "no packages installed"
-}
-
 
 # Shut off useless services
 services() {
@@ -55,7 +8,10 @@ services() {
   done
 }
 
-ssh_cfg() {
+base_cfg() {
+$pkg_cmd install vim
+$pkg_cmd install ntp
+
 mv /root/.ssh /root/.sshbak
 mkdir /root/.ssh
 chmod 700 /root/.ssh
@@ -133,15 +89,28 @@ EOF
 }
 
 
+git_cfg() {
+  $pkg_cmd install rdoc
+  $pkg_cmd install ruby
+  $pkg_cmd install git-core
+}
+
+
+
 ###############
 #  MAIN
 ###############
-# Called with a host name or not?
 
-# eth0_cfg
-# net_cfg
+pkg_cmd=`which yum` || pkg_cmd=`which apt-get`
+pkg_cmd=$pkg_cmd" -y"
 
-env_cfg
-ssh_cfg
-services
-package
+
+if [ "$1" == "base" ] ; then
+ base_cfg
+ exit 0
+fi 
+
+if [ "$1" == "git" ] ; then
+ git_cfg
+ exit 0
+fi 
