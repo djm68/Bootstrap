@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # Shut off useless services
 services() {
   for srv in yum-updatesd cups sendmail bluetooth iptables ip6tables; do 
@@ -8,6 +9,9 @@ services() {
 }
 
 base_cfg() {
+$pkg_cmd install vim
+$pkg_cmd install ntp
+
 mv /root/.ssh /root/.sshbak
 mkdir /root/.ssh
 chmod 700 /root/.ssh
@@ -40,14 +44,6 @@ if [ -f /etc/bashrc ]; then
 fi
 EOF
 
-
-# put IP info onto console at boot time
-cat > /root/.ip_info.sh <<EOF
-#/bin/sh
-sleep 10
-echo 0 > /selinux/enforce
-EOF
-
 # put IP info onto console at boot time
 cat > /root/.ip_info.sh <<EOF
 #/bin/sh
@@ -62,9 +58,11 @@ cat >> /etc/rc.local <<EOF
 EOF
 }
 
-packages() {
-  $pkg_cmd install vim
-  $pkg_cmd install ntp
+
+git_cfg() {
+  $pkg_cmd install rdoc
+  $pkg_cmd install ruby
+  $pkg_cmd install git-core
 }
 
 
@@ -73,10 +71,15 @@ packages() {
 #  MAIN
 ###############
 
-if [ -d /selinux ]; then
-  echo 0 > /selinux/enforce
-fi
-
 pkg_cmd=`which yum` || pkg_cmd=`which apt-get`
 pkg_cmd=$pkg_cmd" -y"
 
+
+if [ "$1" == "base" ] ; then
+ exit 0
+fi 
+
+if [ "$1" == "git" ] ; then
+ git_cfg
+ exit 0
+fi 
