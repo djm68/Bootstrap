@@ -65,6 +65,7 @@ EOF
 packages() {
   $pkg_cmd install vim
   $pkg_cmd install ntp
+  $pkg_cmd install sysstat
 }
 
 
