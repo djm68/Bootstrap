@@ -40,7 +40,7 @@ gem install rspec-mocks --no-ri --no-rdoc
 gem install rspec-expectations --no-ri --no-rdoc
 gem install rspec --no-ri --no-rdoc
 gem install mocha --no-ri --no-rdoc
-gem install rack --no-ri --no-rdoc
+gem install rack --version=1.1.0 --no-ri --no-rdoc
 gem install net-ssh --no-ri --no-rdoc
 gem install stomp --no-ri --no-rdoc
 # skipping rdoc, mongrel, couchrest, sqlite3, ruby-shadow, activerecord, ldap, RRD, SELinux, augeas, openssl, syslog
