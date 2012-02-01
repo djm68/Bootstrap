@@ -62,3 +62,22 @@ rvm reset
 rvm use 1.9.2@allFeatures --create
 gem install rspec mocha rdoc diff-lcs ruby-shadow couchrest sqlite3 rack activerecord net-ssh stomp --no-ri --no-rdoc
 # skipping ldap, RRD, SELinux, mongrel, augeas, openssl, syslog
+
+rvm reset
+rvm use 1.8.7@fog --create
+# install the latest version of fog when this
+# script was written this was 11.0
+gem install guid --no-ri
+gem install fog --no-ri --no-rdoc
+# just install the latest version of puppet
+gem install puppet --no-ri --no-rdoc
+gem install rspec mocha --no-ri --no-rdoc
+
+rvm reset
+# create a gemset for fog 7.2
+use 1.8.7@fog-7.2
+gem install guid --no-ri
+gem install fog --no-ri --no-rdoc -v 0.7.2
+# just install the latest version of Puppet
+gem install puppet --no-ri --no-rdoc
+gem install rspec mocha --no-ri --no-rdoc
